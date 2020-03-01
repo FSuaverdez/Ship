@@ -1,17 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+//BSIT - 2A
+//Angelo A. Baclaan
+//Christopher P. Napoles
+//De Guzman Allen Miguel
+//Frannz S. Suaverdez
+//Franco Miguel Arambulo
 
 import java.awt.Point;
 import java.util.ArrayList;
 
-/**
- *
- * @author JMDC
- */
 public class Human extends Player{
     
     UserInterface ui;
@@ -52,7 +48,7 @@ public class Human extends Player{
     public Point getStartCoordinate()
     {
         Point p;
-        p = ui.getCoordinates("Enter the starting coordinate to build a ship: ");
+        p = ui.getCoordinates("Enter the coordinate to build a ship (X,Y): ");
         return p;
     }
 
@@ -66,7 +62,7 @@ public class Human extends Player{
         Point p;
         do{
             
-            p = ui.getCoordinates("Enter the starting coordinate to attack: ");
+            p = ui.getCoordinates("Enter attack coordinates (X,Y): ");
             if(points.contains(p)){
                 System.out.println("You already attacked that coordinates. Please Try Again.");
             }

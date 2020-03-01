@@ -1,17 +1,13 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//BSIT - 2A
+//Angelo A. Baclaan
+//Christopher P. Napoles
+//De Guzman Allen Miguel
+//Frannz S. Suaverdez
+//Franco Miguel Arambulo
 
 import java.awt.Point;
+import java.util.ArrayList;
 
-
-/**
- *
- * @author JMDC
- */
 public abstract class Player implements GameConstants {
 
     private static final int NUM_SHIPS = 5;
@@ -27,7 +23,7 @@ public abstract class Player implements GameConstants {
     private static final int CRUISER_SIZE = 3;
     private static final int DESTROYER_SIZE = 2;
 
-    private static final char SPACE = ' ';
+    private static final char SPACE =' ';
     private static final char MISS = '-';
     private static final char DESTROYED = '*';
 
@@ -42,19 +38,37 @@ public abstract class Player implements GameConstants {
     public Player(UserInterface ui, String name) {
         this.ui = ui;
         this.name = name;
-
+        
         offensiveGrid = new char[GRID_WIDTH][GRID_HEIGHT];
         initialiseGrid(offensiveGrid);
         defensiveGrid = new char[GRID_WIDTH][GRID_HEIGHT];
         initialiseGrid(defensiveGrid);
     }
     
+    public void initialiseShips() {
+    	ships = new Ship[NUM_SHIPS];
+    }
+    public void initialiseHits(){
+        Point[] temp;
+        for(int i = 0; i <ships.length;i++){
+            temp = ships[i].getPoints();
+
+            for (Point p : temp) {
+                if(defensiveGrid[(int) p.getY()][(int) p.getX()] == DESTROYED){
+                    ships[i].addHitCount();
+                }
+
+            }
+        }
+
+    }
     public char checkSite(Point p) {
         int i;
         i = 0;
-
+        
         while (i < ships.length && !ships[i].hit(p)) {
             i++;
+            
         }
 
         if (i < ships.length) {
@@ -72,6 +86,26 @@ public abstract class Player implements GameConstants {
 
     }
 
+    public ArrayList <Point> getShipPoints(){
+        ArrayList <Point> p = new ArrayList<Point>();
+        Point[] temp;
+        int j = 0;
+        for(int i=0;i<ships.length;i++){
+            temp = ships[i].getPoints();
+            for (Point point : temp) {
+                p.add(point);
+            }
+        }
+        return p; 
+    }
+    public int[] hitCountsss(){
+        int[] temp = new int[5];
+        for(int i=0;i<ships.length;i++){
+            temp[i] = ships[i].getHitCount();
+        }
+        return temp;
+    }
+    
     public void displayDefensiveGrid() {
         ui.displayGrid(defensiveGrid);
     }
@@ -137,7 +171,7 @@ public abstract class Player implements GameConstants {
                 points[i]=getPoint(points[i-1],orientation);
             }
             done = validPoints(points);
-
+            
         }
 
         ship = new Ship(type,orientation,points);
@@ -145,6 +179,8 @@ public abstract class Player implements GameConstants {
 
         return ship;
     }
+    
+    
 
     private Point getPoint(Point old, int orientation){
         int x,y;
@@ -210,12 +246,73 @@ public abstract class Player implements GameConstants {
 
         return true;
     }
+    
+    
 
     public abstract int getOrientation();
 
     public abstract Point getStartCoordinate();
 
     public abstract Point takeTurn();
+
+	public char[][] getOffensiveGrid() {
+		return offensiveGrid;
+	}
+
+	public void setOffensiveGrid(char[][] offensiveGrid) {
+		this.offensiveGrid = offensiveGrid;
+	}
+
+	public char[][] getDefensiveGrid() {
+		return defensiveGrid;
+	}
+
+	public void setDefensiveGrid(char[][] defensiveGrid) {
+		this.defensiveGrid = defensiveGrid;
+	}
+    
+    public void setShipPoints(ArrayList<Point> p) {
+    	Point[] arr1 = new Point[5];
+    	Point[] arr2 = new Point[4];
+    	Point[] arr3 = new Point[3];
+    	Point[] arr4 = new Point[2];
+    	Point[] arr5 = new Point[2];
+
+
+    			arr1[0] = new Point((int)p.get(0).getX(),(int)p.get(0).getY());
+    			arr1[1] = new Point((int)p.get(1).getX(),(int)p.get(1).getY());
+    			arr1[2] = new Point((int)p.get(2).getX(),(int)p.get(2).getY());
+    			arr1[3] = new Point((int)p.get(3).getX(),(int)p.get(3).getY());
+    			arr1[4] = new Point((int)p.get(4).getX(),(int)p.get(4).getY());
+    			
+    			arr2[0] = new Point((int)p.get(5).getX(),(int)p.get(5).getY());
+    			arr2[1] = new Point((int)p.get(6).getX(),(int)p.get(6).getY());
+    			arr2[2] = new Point((int)p.get(7).getX(),(int)p.get(7).getY());
+    			arr2[3] = new Point((int)p.get(8).getX(),(int)p.get(8).getY());
+
+    			arr3[0] = new Point((int)p.get(9).getX(),(int)p.get(9).getY());
+    			arr3[1] = new Point((int)p.get(10).getX(),(int)p.get(10).getY());
+    			arr3[2] = new Point((int)p.get(11).getX(),(int)p.get(11).getY());
+
+    			arr4[0] = new Point((int)p.get(12).getX(),(int)p.get(12).getY());
+    			arr4[1] = new Point((int)p.get(13).getX(),(int)p.get(13).getY());
+
+    			
+    			arr5[0] = new Point((int)p.get(14).getX(),(int)p.get(14).getY());
+    			arr5[1] = new Point((int)p.get(15).getX(),(int)p.get(15).getY());
+    			
+    			ships[0] = new Ship(arr1,"Aircraft Carrier");
+    			ships[1] = new Ship(arr2,"Battleship");
+    			ships[2] = new Ship(arr3,"Cruiser");
+    			ships[3] = new Ship(arr4,"Destroyer");
+    			ships[4] = new Ship(arr5,"Destroyer");
+    	}
+    		
+    	
+    	
+    
+    
+    
 
 
 
